@@ -157,7 +157,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           branch: upstream-sync-${{ github.run_number }}
-          title: '${{ env.CONFLICTS_FOUND == ''true'' && ''⚠️'' || ''✅'' }} Sync upstream Unity shaders'
+          title: "${{ env.CONFLICTS_FOUND == 'true' && '⚠️' || '✅' }} Sync upstream Unity shaders"
           body: |
             ## Automated Upstream Sync
             
