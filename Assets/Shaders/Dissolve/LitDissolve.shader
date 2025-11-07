@@ -175,7 +175,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveForwardPass.hlsl"
             ENDHLSL
         }
 
@@ -530,5 +530,5 @@ Shader "Universal Render Pipeline/LitDissolve"
     }
 
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
+    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitDissolveShader"
 }

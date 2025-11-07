@@ -94,9 +94,9 @@ jobs:
           
           # File mappings: "upstream_path:your_repo_path"
           declare -a FILE_MAPPINGS=(
-            "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl:Assets/Shaders/Dissolve/src/LitForwardPass.hlsl"
-            "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader:Assets/Shaders/Dissolve/Lit.shader"
-            "Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders/LitShader.cs:Assets/Shaders/Dissolve/Editor/LitShader.cs"
+            "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl:Assets/Shaders/Dissolve/src/LitDissolveForwardPass.hlsl"
+            "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader:Assets/Shaders/Dissolve/LitDissolve.shader"
+            "Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders/LitShader.cs:Assets/Shaders/Dissolve/Editor/LitDissolveShader.cs"
           )
           
           for mapping in "${FILE_MAPPINGS[@]}"; do
