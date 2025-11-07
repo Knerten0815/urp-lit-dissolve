@@ -1,0 +1,190 @@
+name: Sync Upstream Unity Shaders
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at midnight UTC
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+      - name: Setup upstream-base branch
+        run: |
+          # Try to checkout existing upstream-base branch, or create new orphan branch
+          git fetch origin upstream-base 2>/dev/null || true
+          git checkout upstream-base 2>/dev/null || git checkout --orphan upstream-base
+          
+          # Clean the branch (remove all files)
+          git rm -rf . 2>/dev/null || true
+          
+      - name: Download upstream files
+        run: |
+          BASE_URL="https://raw.githubusercontent.com/Unity-Technologies/Graphics/master/Packages/com.unity.render-pipelines.universal"
+          
+          # Create upstream directory structure
+          mkdir -p Packages/com.unity.render-pipelines.universal/Shaders
+          mkdir -p Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders
+          mkdir -p Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/ShadingModels
+          
+          # Download files maintaining upstream structure
+          echo "Downloading LitForwardPass.hlsl..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl \
+            "$BASE_URL/Shaders/LitForwardPass.hlsl"
+          
+          echo "Downloading Lit.shader..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader \
+            "$BASE_URL/Shaders/Lit.shader"
+          
+          echo "Downloading LitShader.cs..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders/LitShader.cs \
+            "$BASE_URL/Editor/ShaderGUI/Shaders/LitShader.cs"
+          
+          echo "Downloading LitDetailGUI.cs..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs \
+            "$BASE_URL/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs"
+          
+      - name: Commit upstream base files
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to upstream files"
+            echo "UPSTREAM_CHANGED=false" >> $GITHUB_ENV
+          else
+            git commit -m "Update upstream base files $(date +%Y-%m-%d)"
+            git push -f origin upstream-base
+            echo "UPSTREAM_CHANGED=true" >> $GITHUB_ENV
+          fi
+          
+      - name: Switch to main branch
+        run: |
+          git checkout main
+          
+      - name: Fetch latest upstream-base
+        if: env.UPSTREAM_CHANGED == 'true'
+        run: |
+          git fetch origin upstream-base
+          
+      - name: Get previous upstream-base commit
+        if: env.UPSTREAM_CHANGED == 'true'
+        run: |
+          # Get the commit before the latest one for base comparison
+          PREVIOUS_COMMIT=$(git rev-parse origin/upstream-base~1 2>/dev/null || git rev-parse origin/upstream-base)
+          echo "PREVIOUS_BASE_COMMIT=$PREVIOUS_COMMIT" >> $GITHUB_ENV
+          
+      - name: Perform three-way merge for edited files
+        if: env.UPSTREAM_CHANGED == 'true'
+        run: |
+          CONFLICTS_FOUND=false
+          
+          # File mappings: "upstream_path:your_repo_path"
+          declare -a FILE_MAPPINGS=(
+            "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl:Assets/Shaders/Dissolve/src/LitForwardPass.hlsl"
+            "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader:Assets/Shaders/Dissolve/Lit.shader"
+            "Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders/LitShader.cs:Assets/Shaders/Dissolve/Editor/LitShader.cs"
+          )
+          
+          for mapping in "${FILE_MAPPINGS[@]}"; do
+            IFS=':' read -r upstream_path repo_path <<< "$mapping"
+            
+            if [ -f "$repo_path" ]; then
+              echo "Processing $repo_path..."
+              
+              # Get base version (previous upstream commit)
+              git show $PREVIOUS_BASE_COMMIT:"$upstream_path" > /tmp/base_file 2>/dev/null || {
+                echo "Warning: Could not get base version for $upstream_path, skipping merge"
+                continue
+              }
+              
+              # Get new upstream version (latest upstream commit)
+              git show origin/upstream-base:"$upstream_path" > /tmp/upstream_file 2>/dev/null || {
+                echo "Warning: Could not get new version for $upstream_path, skipping merge"
+                continue
+              }
+              
+              # Perform three-way merge
+              if ! git merge-file "$repo_path" /tmp/base_file /tmp/upstream_file; then
+                echo "⚠️ CONFLICT in $repo_path"
+                CONFLICTS_FOUND=true
+              else
+                echo "✅ Successfully merged $repo_path"
+              fi
+            else
+              echo "Warning: $repo_path does not exist in your repository"
+            fi
+          done
+          
+          echo "CONFLICTS_FOUND=$CONFLICTS_FOUND" >> $GITHUB_ENV
+          
+      - name: Update non-edited file directly
+        if: env.UPSTREAM_CHANGED == 'true'
+        run: |
+          # For LitDetailGUI.cs which you don't edit, just copy the latest version
+          git show origin/upstream-base:Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs \
+            > Assets/Shaders/Dissolve/Editor/LitDetailGUI.cs
+          
+          echo "✅ Updated LitDetailGUI.cs (non-edited file)"
+          
+      - name: Check for changes
+        if: env.UPSTREAM_CHANGED == 'true'
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No changes after merge"
+            echo "HAS_CHANGES=false" >> $GITHUB_ENV
+          else
+            echo "Changes detected"
+            echo "HAS_CHANGES=true" >> $GITHUB_ENV
+          fi
+          
+      - name: Create Pull Request
+        if: env.UPSTREAM_CHANGED == 'true' && env.HAS_CHANGES == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: upstream-sync-${{ github.run_number }}
+          title: '${{ env.CONFLICTS_FOUND == ''true'' && ''⚠️'' || ''✅'' }} Sync upstream Unity shaders'
+          body: |
+            ## Automated Upstream Sync
+            
+            This PR syncs the latest changes from Unity's Graphics repository.
+            
+            **Status:** ${{ env.CONFLICTS_FOUND == 'true' && '⚠️ **CONFLICTS DETECTED** - Manual review required' || '✅ Clean merge - Ready to review' }}
+            
+            ### Files Updated:
+            - `Assets/Shaders/Dissolve/src/LitForwardPass.hlsl` (3-way merge)
+            - `Assets/Shaders/Dissolve/Lit.shader` (3-way merge)
+            - `Assets/Shaders/Dissolve/Editor/LitShader.cs` (3-way merge)
+            - `Assets/Shaders/Dissolve/Editor/LitDetailGUI.cs` (direct update)
+            
+            ### What to do:
+            ${{ env.CONFLICTS_FOUND == 'true' && '1. Review and resolve conflicts marked with `<<<<<<<`, `=======`, `>>>>>>>`\n2. Test the shaders in Unity\n3. Merge when ready' || '1. Review the changes\n2. Test the shaders in Unity\n3. Merge when ready' }}
+            
+            ---
+            
+            Source: [Unity Graphics Repository](https://github.com/Unity-Technologies/Graphics)
+            Base files stored in: [`upstream-base` branch](https://github.com/${{ github.repository }}/tree/upstream-base)
+          commit-message: 'chore: sync upstream Unity shader files'
+          labels: upstream-sync,automated
+          
+      - name: Summary
+        if: always()
+        run: |
+          if [ "$UPSTREAM_CHANGED" != "true" ]; then
+            echo "✅ No upstream changes detected"
+          elif [ "$HAS_CHANGES" != "true" ]; then
+            echo "✅ Upstream changed but no changes needed in main branch"
+          elif [ "$CONFLICTS_FOUND" == "true" ]; then
+            echo "⚠️ Pull request created with conflicts - manual review required"
+          else
+            echo "✅ Pull request created with clean merge"
+          fi
