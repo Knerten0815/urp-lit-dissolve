@@ -135,6 +135,7 @@ jobs:
         if: env.UPSTREAM_CHANGED == 'true'
         run: |
           # For LitDetailGUI.cs which you don't edit, just copy the latest version
+          mkdir -p Assets/Shaders/Dissolve/Editor
           git show origin/upstream-base:Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs \
             > Assets/Shaders/Dissolve/Editor/LitDetailGUI.cs
           
