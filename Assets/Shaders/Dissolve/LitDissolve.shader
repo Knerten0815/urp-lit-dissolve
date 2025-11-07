@@ -73,6 +73,16 @@ Shader "Universal Render Pipeline/LitDissolve"
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+
+        // ---------------- Dissolve Add-On ------------------
+        [Header(Dissolve Settings)] [Space]
+        _DissolveColor("Color", Color)             = (0, 1, 1)
+        _DissolveEmission("Emission", float)       = 100
+        _DissolveRadius("Radius", float)           = 0.5
+        _DissolveArea("Area", float)               = 0.1
+        _DissolveOrigin("Origin", Vector)          = (0,0,0,0)
+        _NoiseTexture("Noise Texture", 2D)         = "black" {}
+        // ---------------------------------------------------
     }
 
     SubShader

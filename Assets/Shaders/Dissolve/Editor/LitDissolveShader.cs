@@ -10,9 +10,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
 
         private LitGUI.LitProperties litProperties;
         private LitDetailGUI.LitProperties litDetailProperties;
+        private DissolveGUI.DissolveProperties dissolveProperties;
 
         public override void FillAdditionalFoldouts(MaterialHeaderScopeList materialScopesList)
         {
+            materialScopesList.RegisterHeaderScope(DissolveGUI.Styles.dissolveInputs, Expandable.Details, _ => DissolveGUI.DoDissolveArea(dissolveProperties, materialEditor));
             materialScopesList.RegisterHeaderScope(LitDetailGUI.Styles.detailInputs, Expandable.Details, _ => LitDetailGUI.DoDetailArea(litDetailProperties, materialEditor));
         }
 
@@ -22,6 +24,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             base.FindProperties(properties);
             litProperties = new LitGUI.LitProperties(properties);
             litDetailProperties = new LitDetailGUI.LitProperties(properties);
+            dissolveProperties = new DissolveGUI.DissolveProperties(properties);
         }
 
         // material changed check
