@@ -2,6 +2,7 @@
 #define UNIVERSAL_FORWARD_LIT_PASS_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Assets/Shaders/Dissolve/src/NoiseDissolve.hlsl"
 
 #if defined(LOD_FADE_CROSSFADE)
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
@@ -241,6 +242,10 @@ void LitPassFragment(
     ApplyPerPixelDisplacement(viewDirTS, input.uv);
 #endif
 
+    //--------------------------------------------------
+    float distance = ApplyDissolveCutout(input.positionWS, input.uv);
+    //--------------------------------------------------
+
     SurfaceData surfaceData;
     InitializeStandardLitSurfaceData(input.uv, surfaceData);
 
@@ -261,6 +266,10 @@ void LitPassFragment(
     half4 color = UniversalFragmentPBR(inputData, surfaceData);
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
+
+    // ----------------------------------------------
+    color = ApplyDissolveEffect(distance, color);
+    // ----------------------------------------------
 
     outColor = color;
 
