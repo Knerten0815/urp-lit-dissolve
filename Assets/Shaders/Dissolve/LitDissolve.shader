@@ -184,7 +184,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             #pragma instancing_options renderinglayer
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Assets/Shaders/Dissolve/src/LitDissolveForwardPass.hlsl"
             ENDHLSL
         }
@@ -234,7 +234,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
@@ -322,7 +322,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitGBufferPass.hlsl"
             ENDHLSL
         }
@@ -365,7 +365,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
             ENDHLSL
         }
@@ -415,7 +415,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
             ENDHLSL
         }
@@ -454,7 +454,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitMetaPass.hlsl"
 
             ENDHLSL
@@ -491,7 +491,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Universal2D.hlsl"
             ENDHLSL
         }
@@ -507,7 +507,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma shader_feature_local_vertex _ADD_PRECOMPUTED_VELOCITY
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
             ENDHLSL
         }
@@ -533,7 +533,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             #pragma shader_feature_local_vertex _ADD_PRECOMPUTED_VELOCITY
             #define APPLICATION_SPACE_WARP_MOTION 1
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ObjectMotionVectors.hlsl"
             ENDHLSL
         }

@@ -242,9 +242,9 @@ void LitPassFragment(
     ApplyPerPixelDisplacement(viewDirTS, input.uv);
 #endif
 
-    //--------------------------------------------------
+    // ------------------------- Dissolve Add-On -------------------------
     float distance = ApplyDissolveCutout(input.positionWS, input.uv);
-    //--------------------------------------------------
+    // -------------------------------------------------------------------
 
     SurfaceData surfaceData;
     InitializeStandardLitSurfaceData(input.uv, surfaceData);
@@ -267,9 +267,9 @@ void LitPassFragment(
     color.rgb = MixFog(color.rgb, inputData.fogCoord);
     color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
-    // ----------------------------------------------
+    // ------------------------- Dissolve Add-On -------------------------
     color = ApplyDissolveEffect(distance, color);
-    // ----------------------------------------------
+    // -------------------------------------------------------------------
 
     outColor = color;
 
