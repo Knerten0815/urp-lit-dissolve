@@ -30,7 +30,7 @@ half4 ApplyDissolveEffect(float distance, half4 color)
 {
     if(distance <= _DissolveRadius + _DissolveArea)
     {
-        color = color * _DissolveColor * _DissolveEmission;
+        color = color + _DissolveColor * _DissolveEmission;
     }
     return color;
 }
