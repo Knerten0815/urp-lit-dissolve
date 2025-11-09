@@ -19,7 +19,7 @@ float ApplyDissolveCutout(float3 positionWS, float2 uv)
 
 half4 ApplyDissolveEffect(float distance, half4 color)
 {
-    if(distance <= _DissolveRadius + _DissolveArea)
+    if(distance <= _DissolveRadius)
     {
         color = color + _DissolveColor * _DissolveEmission;
     }
