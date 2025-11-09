@@ -2,7 +2,7 @@
 #define UNIVERSAL_FORWARD_LIT_PASS_INCLUDED
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-#include "Assets/Shaders/Dissolve/src/NoiseDissolve.hlsl"
+#include "Assets/Shaders/Dissolve/src/Dissolve.hlsl"
 
 #if defined(LOD_FADE_CROSSFADE)
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
