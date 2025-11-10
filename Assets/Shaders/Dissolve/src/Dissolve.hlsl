@@ -1,12 +1,12 @@
 #ifndef DISSOLVE_INCLUDED
 #define DISSOLVE_INCLUDED
 
-TEXTURE2D(_NoiseTexture);       SAMPLER(sampler_NoiseTexture);
+TEXTURE2D(_NoiseMap);       SAMPLER(sampler_NoiseMap);
 
 float ApplyDissolveCutout(float3 positionWS, float2 uv)
 {
     float distance = length(positionWS - _DissolveOrigin.xyz);
-    float noise = SAMPLE_TEXTURE2D(_NoiseTexture, sampler_NoiseTexture, uv).x;
+    float noise = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, uv).x;
     distance = distance + _DissolveArea * noise;
 
     if(distance < _DissolveRadius - _DissolveArea)

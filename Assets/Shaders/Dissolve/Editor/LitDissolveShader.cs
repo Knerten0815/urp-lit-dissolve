@@ -14,7 +14,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
 
         public override void FillAdditionalFoldouts(MaterialHeaderScopeList materialScopesList)
         {
-            materialScopesList.RegisterHeaderScope(DissolveGUI.Styles.dissolveInputs, Expandable.Details, _ => DissolveGUI.DoDissolveArea(dissolveProperties, materialEditor));
+            materialScopesList.RegisterHeaderScope(DissolveGUI.Styles.dissolveInputs, 1 << 4, _ => DissolveGUI.DoDissolveArea(dissolveProperties, materialEditor));
             materialScopesList.RegisterHeaderScope(LitDetailGUI.Styles.detailInputs, Expandable.Details, _ => LitDetailGUI.DoDetailArea(litDetailProperties, materialEditor));
         }
 

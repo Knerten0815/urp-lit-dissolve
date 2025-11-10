@@ -81,7 +81,7 @@ Shader "Universal Render Pipeline/LitDissolve"
         _DissolveRadius("Radius", float)           = 0.5
         _DissolveArea("Area", float)               = 0.1
         _DissolveOrigin("Origin", Vector)          = (0,0,0,0)
-        _NoiseTexture("Noise Texture", 2D)         = "black" {}
+        _NoiseMap("Noise Map", 2D)         = "black" {}
         // ---------------------------------------------------
     }
 

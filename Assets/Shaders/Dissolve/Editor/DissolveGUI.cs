@@ -24,7 +24,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             public static readonly GUIContent dissolveOriginText = EditorGUIUtility.TrTextContent("Origin",
                 "The world space origin point of the dissolve effect.");
 
-            public static readonly GUIContent noiseTextureText = EditorGUIUtility.TrTextContent("Noise Texture",
+            public static readonly GUIContent noiseMapText = EditorGUIUtility.TrTextContent("Noise Map",
                 "The noise texture used to create the dissolve pattern.");
         }
 
@@ -35,7 +35,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             public MaterialProperty dissolveRadius;
             public MaterialProperty dissolveArea;
             public MaterialProperty dissolveOrigin;
-            public MaterialProperty noiseTexture;
+            public MaterialProperty noiseMap;
 
             public DissolveProperties(MaterialProperty[] properties)
             {
@@ -44,7 +44,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
                 dissolveRadius = BaseShaderGUI.FindProperty("_DissolveRadius", properties, false);
                 dissolveArea = BaseShaderGUI.FindProperty("_DissolveArea", properties, false);
                 dissolveOrigin = BaseShaderGUI.FindProperty("_DissolveOrigin", properties, false);
-                noiseTexture = BaseShaderGUI.FindProperty("_NoiseTexture", properties, false);
+                noiseMap = BaseShaderGUI.FindProperty("_NoiseMap", properties, false);
             }
         }
 
@@ -65,10 +65,19 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             if (properties.dissolveOrigin != null)
                 materialEditor.ShaderProperty(properties.dissolveOrigin, Styles.dissolveOriginText);
 
-            if (properties.noiseTexture != null)
+            if (properties.noiseMap != null)
             {
-                materialEditor.TexturePropertySingleLine(Styles.noiseTextureText, properties.noiseTexture);
-                materialEditor.TextureScaleOffsetProperty(properties.noiseTexture);
+                materialEditor.TexturePropertySingleLine(Styles.noiseMapText, properties.noiseMap);
+                materialEditor.TextureScaleOffsetProperty(properties.noiseMap);
+            }
+        }
+
+        public static void SetMaterialKeywords(Material material)
+        {
+            if (material.HasProperty("_NoiseMap"))
+            {
+                bool hasNoiseMap = material.GetTexture("_NoiseMap");
+                UnityEngine.Rendering.CoreUtils.SetKeyword(material, "_NOISE_MAP", hasNoiseMap);
             }
         }
     }
