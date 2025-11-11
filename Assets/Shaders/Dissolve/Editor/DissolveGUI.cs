@@ -26,6 +26,9 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
 
             public static readonly GUIContent noiseMapText = EditorGUIUtility.TrTextContent("Noise Map",
                 "The noise texture used to create the dissolve pattern.");
+
+            public static readonly GUIContent dissolveShadowsText = EditorGUIUtility.TrTextContent("Dissolve Shadows",
+                "Wether or not the dissolved parts of the object cast shadows.");
         }
 
         public struct DissolveProperties
@@ -36,6 +39,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             public MaterialProperty dissolveArea;
             public MaterialProperty dissolveOrigin;
             public MaterialProperty noiseMap;
+            public MaterialProperty dissolveShadows;
 
             public DissolveProperties(MaterialProperty[] properties)
             {
@@ -45,6 +49,7 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
                 dissolveArea = BaseShaderGUI.FindProperty("_DissolveArea", properties, false);
                 dissolveOrigin = BaseShaderGUI.FindProperty("_DissolveOrigin", properties, false);
                 noiseMap = BaseShaderGUI.FindProperty("_NoiseMap", properties, false);
+                dissolveShadows = BaseShaderGUI.FindProperty("_DissolveShadows", properties, false);
             }
         }
 
@@ -69,6 +74,11 @@ namespace UnityEditor.Rendering.Universal.ShaderGUI
             {
                 materialEditor.TexturePropertySingleLine(Styles.noiseMapText, properties.noiseMap);
                 materialEditor.TextureScaleOffsetProperty(properties.noiseMap);
+            }
+
+            if (properties.dissolveShadows != null)
+            {
+                materialEditor.ShaderProperty(properties.dissolveShadows, Styles.dissolveShadowsText);
             }
         }
 

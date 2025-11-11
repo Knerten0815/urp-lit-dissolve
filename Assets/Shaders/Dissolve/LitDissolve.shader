@@ -80,8 +80,10 @@ Shader "Universal Render Pipeline/LitDissolve"
         _DissolveEmission("Emission", float)       = 100
         _DissolveRadius("Radius", float)           = 0.5
         _DissolveArea("Area", float)               = 0.1
-        _DissolveOrigin("Origin", Vector)          = (0,0,0,0)
+        _DissolveOrigin("Origin (XYZ only)", Vector) = (0,0,0,0)
         _NoiseMap("Noise Map", 2D)         = "black" {}
+        [Toggle(_DISSOLVE_SHADOWS)]
+        _DissolveShadows("Dissolve Shadows", float)  = 1
         // ---------------------------------------------------
     }
 
@@ -214,6 +216,7 @@ Shader "Universal Render Pipeline/LitDissolve"
 
             // -------------------------------------
             // Material Keywords
+            #pragma shader_feature_local _DISSOLVE_SHADOWS
             #pragma shader_feature_local _ALPHATEST_ON
             #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
@@ -235,7 +238,8 @@ Shader "Universal Render Pipeline/LitDissolve"
             // -------------------------------------
             // Includes
             #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
+            #include "Assets/Shaders/Dissolve/src/DissolveShadowCasterPass.hlsl"
+
             ENDHLSL
         }
 

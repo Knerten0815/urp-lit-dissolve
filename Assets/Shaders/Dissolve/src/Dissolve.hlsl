@@ -3,6 +3,19 @@
 
 TEXTURE2D(_NoiseMap);       SAMPLER(sampler_NoiseMap);
 
+float ApplySimpleDissolveCutout(float3 positionWS)
+{
+    float distance = length(positionWS - _DissolveOrigin.xyz);
+    distance = distance;// + _DissolveArea;
+
+    if(distance < _DissolveRadius - _DissolveArea)
+    {
+        discard;
+    }
+
+    return distance;
+}
+
 float ApplyDissolveCutout(float3 positionWS, float2 uv)
 {
     float distance = length(positionWS - _DissolveOrigin.xyz);
