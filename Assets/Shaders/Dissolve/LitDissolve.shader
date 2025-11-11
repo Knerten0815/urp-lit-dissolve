@@ -370,7 +370,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             // -------------------------------------
             // Includes
             #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
-            #include "Assets/Shaders/Dissolve/src/LitDissolveDepthOnlyPass.hlsl"
+            #include "Assets/Shaders/Dissolve/src/DissolveDepthOnlyPass.hlsl"
             ENDHLSL
         }
 
@@ -420,7 +420,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             // -------------------------------------
             // Includes
             #include "Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
-            #include "Assets/Shaders/Dissolve/src/LitDissolveDepthNormalsPass.hlsl"
+            #include "Assets/Shaders/Dissolve/src/DissolveDepthNormalsPass.hlsl"
             ENDHLSL
         }
 

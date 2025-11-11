@@ -59,6 +59,22 @@ jobs:
           curl -fsSL -o Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs \
             "$BASE_URL/Editor/ShaderGUI/ShadingModels/LitDetailGUI.cs"
           
+          echo "Downloading ShadowCasterPass.hlsl..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl \
+            "$BASE_URL/Shaders/ShadowCasterPass.hlsl"
+          
+          echo "Downloading DepthNormalsPass.hlsl..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/DepthNormalsPass.hlsl \
+            "$BASE_URL/Shaders/DepthNormalsPass.hlsl"
+          
+          echo "Downloading DepthOnlyPass.hlsl..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl \
+            "$BASE_URL/Shaders/DepthOnlyPass.hlsl"
+          
+          echo "Downloading LitInput.hlsl..."
+          curl -fsSL -o Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl \
+            "$BASE_URL/Shaders/LitInput.hlsl"
+          
       - name: Commit upstream base files
         run: |
           git add .
@@ -97,6 +113,10 @@ jobs:
             "Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl:Assets/Shaders/Dissolve/src/LitDissolveForwardPass.hlsl"
             "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader:Assets/Shaders/Dissolve/LitDissolve.shader"
             "Packages/com.unity.render-pipelines.universal/Editor/ShaderGUI/Shaders/LitShader.cs:Assets/Shaders/Dissolve/Editor/LitDissolveShader.cs"
+            "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl:Assets/Shaders/Dissolve/src/DissolveShadowCasterPass.hlsl"
+            "Packages/com.unity.render-pipelines.universal/Shaders/DepthNormalsPass.hlsl:Assets/Shaders/Dissolve/src/DissolveDepthNormalsPass.hlsl"
+            "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl:Assets/Shaders/Dissolve/src/DissolveDepthOnlyPass.hlsl"
+            "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl:Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl"
           )
           
           for mapping in "${FILE_MAPPINGS[@]}"; do
@@ -166,9 +186,13 @@ jobs:
             **Status:** ${{ env.CONFLICTS_FOUND == 'true' && '⚠️ **CONFLICTS DETECTED** - Manual review required' || '✅ Clean merge - Ready to review' }}
             
             ### Files Updated:
-            - `Assets/Shaders/Dissolve/src/LitForwardPass.hlsl` (3-way merge)
-            - `Assets/Shaders/Dissolve/Lit.shader` (3-way merge)
-            - `Assets/Shaders/Dissolve/Editor/LitShader.cs` (3-way merge)
+            - `Assets/Shaders/Dissolve/src/LitDissolveForwardPass.hlsl` (3-way merge)
+            - `Assets/Shaders/Dissolve/LitDissolve.shader` (3-way merge)
+            - `Assets/Shaders/Dissolve/Editor/LitDissolveShader.cs` (3-way merge)
+            - `Assets/Shaders/Dissolve/src/DissolveShadowCasterPass.hlsl` (3-way merge)
+            - `Assets/Shaders/Dissolve/src/DissolveDepthNormalsPass.hlsl` (3-way merge)
+            - `Assets/Shaders/Dissolve/src/DissolveDepthOnlyPass.hlsl` (3-way merge)
+            - `Assets/Shaders/Dissolve/src/LitDissolveInput.hlsl` (3-way merge)
             - `Assets/Shaders/Dissolve/Editor/LitDetailGUI.cs` (direct update)
             
             ### What to do:
