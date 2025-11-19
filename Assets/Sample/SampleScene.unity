@@ -1645,11 +1645,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 960, y: 600}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -3842,7 +3842,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "This demo shows a custom dissolve shader built on Unity\u2019s URP Lit
     shader. It can be used as a drop-in replacement in any URP project.\n\nClick
-    one of the objects to trigger the dissolve animation,\nor use the gizmo on the
+    one of the objects to trigger the dissolve animation, or use the gizmo on the
     small white sphere to tweak the radius and origin of the effect."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9cfef1483fb17e4cadbb5d2fcfbd8c7, type: 2}
