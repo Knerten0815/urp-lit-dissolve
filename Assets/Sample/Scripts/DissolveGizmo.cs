@@ -45,8 +45,6 @@ public class DissolveGizmo : MonoBehaviour
         }
     }
 
-
-    
     private void ResetVisuals()
     {
         if (isDragging)
