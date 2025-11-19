@@ -29,7 +29,10 @@ public class DissolveGizmo : MonoBehaviour
 
         // only continue if gizmos were hit
         if (hitGizmos.collider == null)
+        {
+            Hover(null);
             return;
+        }
 
         // get material of the arrow/base and highlight that part.
         Material hitMaterial = hitGizmos.collider.GetComponent<MeshRenderer>().sharedMaterial;
