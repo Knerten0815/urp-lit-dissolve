@@ -7,8 +7,14 @@ public class DissolveGizmo : MonoBehaviour
     [SerializeField] float _scaleMultiplier = 0.01f;
     [SerializeField] private Material _matX, _matY, _matZ, _matBase;
     [SerializeField] private Material[] _dissolveMaterials;
-    private bool isDragging = false;
+    private bool _isDragging = false;
+    private Vector3 _defaultPosition, _defaultRadius;
 
+    private void Awake()
+    {
+        _defaultPosition = transform.position;
+        _defaultRadius = _radiusIndicator.transform.localScale;
+    }
     private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -47,9 +53,9 @@ public class DissolveGizmo : MonoBehaviour
 
     private void ResetVisuals()
     {
-        if (isDragging)
+        if (_isDragging)
             return;
-        
+
         _matX.color = DimColor(Color.red);
         _matY.color = DimColor(Color.green);
         _matZ.color = DimColor(Color.blue);
@@ -63,9 +69,9 @@ public class DissolveGizmo : MonoBehaviour
 
     private void Hover(Material material)
     {
-        if (isDragging)
+        if (_isDragging)
             return;
-        
+
         _matX.color = material == _matX ? Color.red : DimColor(Color.red);
         _matY.color = material == _matY ? Color.green : DimColor(Color.green);
         _matZ.color = material == _matZ ? Color.blue : DimColor(Color.blue);
@@ -106,7 +112,7 @@ public class DissolveGizmo : MonoBehaviour
 
         return new Plane();
     }
-    
+
     private Vector3 ProjectMouseToWorldPosition(Plane plane)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -116,7 +122,7 @@ public class DissolveGizmo : MonoBehaviour
 
     private IEnumerator PositionDrag(Material hitMaterial)
     {
-        isDragging = true;
+        _isDragging = true;
 
         Plane plane = GetPlane(hitMaterial);
         Vector3 currentPos = ProjectMouseToWorldPosition(plane);
@@ -144,12 +150,12 @@ public class DissolveGizmo : MonoBehaviour
             yield return null;
         }
 
-        isDragging = false;
+        _isDragging = false;
     }
 
     private IEnumerator ScaleDrag()
     {
-        isDragging = true;
+        _isDragging = true;
 
         Vector3 startMousePos = Input.mousePosition;
         Vector3 startScale = _radiusIndicator.transform.localScale;
@@ -175,6 +181,14 @@ public class DissolveGizmo : MonoBehaviour
             yield return null;
         }
 
-        isDragging = false;
+        _isDragging = false;
+    }
+
+    public void ResetGizmo()
+    {
+        transform.position = _defaultPosition;
+        _radiusIndicator.transform.localScale = _defaultRadius;
+        UpdateDissolveOrigin();
+        UpdateDissolveRadius();
     }
 }
