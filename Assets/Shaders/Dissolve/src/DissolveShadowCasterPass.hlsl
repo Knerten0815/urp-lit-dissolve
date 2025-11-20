@@ -56,9 +56,7 @@ Varyings ShadowPassVertex(Attributes input)
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
 
-    #if defined(_ALPHATEST_ON)
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
-    #endif
 
     output.positionCS = GetShadowPositionHClip(input, output.positionWS);
     return output;

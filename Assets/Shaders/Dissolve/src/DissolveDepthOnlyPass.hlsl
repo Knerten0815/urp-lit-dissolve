@@ -4,9 +4,7 @@
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
 // ------------------------- Dissolve Add-On -------------------------
-#if defined(_ALPHATEST_ON)
 #include "Assets/Shaders/Dissolve/src/Dissolve.hlsl"
-#endif
 // -------------------------------------------------------------------
 
 #if defined(LOD_FADE_CROSSFADE)
@@ -22,15 +20,10 @@ struct Attributes
 
 struct Varyings
 {
-    #if defined(_ALPHATEST_ON)
-        float2 uv       : TEXCOORD0;
-        // ------------------------- Dissolve Add-On -------------------------
-        half3 positionWS    : TEXCOORD1;
-        // -------------------------------------------------------------------
-    #endif
-
-    
-
+    // ------------------------- Dissolve Add-On -------------------------
+    float2 uv       : TEXCOORD0;
+    half3 positionWS    : TEXCOORD1;
+    // -------------------------------------------------------------------
     float4 positionCS   : SV_POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
