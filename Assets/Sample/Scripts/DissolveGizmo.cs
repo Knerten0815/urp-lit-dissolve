@@ -108,10 +108,10 @@ public class DissolveGizmo : MonoBehaviour
     private Plane GetPlane(Material material)
     {
         if (material == _matX || material == _matY)
-            return new Plane(Vector3.forward, transform.position.z);
+            return new Plane(Vector3.forward, transform.position);
 
         if (material == _matZ)
-            return new Plane(Vector3.right, transform.position.x);
+            return new Plane(Vector3.right, transform.position);
 
         return new Plane();
     }
@@ -146,7 +146,7 @@ public class DissolveGizmo : MonoBehaviour
             else if (hitMaterial == _matZ)
                 moveDir = Vector3.forward * worldDir.z;
 
-            transform.position -= moveDir;
+            transform.position += moveDir;
             UpdateDissolveOrigin();
 
             lastPos = currentPos;
