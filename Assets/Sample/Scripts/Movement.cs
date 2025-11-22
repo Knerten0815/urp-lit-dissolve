@@ -45,7 +45,7 @@ public class Movement : MonoBehaviour
         else
             dash = 1;
 
-            transform.position += dir * _moveSpeed * dash;
+            transform.position += dir * _moveSpeed * dash * Time.deltaTime;
     }
 
     private void Look()

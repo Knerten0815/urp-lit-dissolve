@@ -165,8 +165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lookSpeed: 3
-  _moveSpeed: 0.01
-  _dashSpeedMultiplier: 1
+  _moveSpeed: 1
+  _dashSpeedMultiplier: 3.5
 --- !u!1 &62388187
 GameObject:
   m_ObjectHideFlags: 0
