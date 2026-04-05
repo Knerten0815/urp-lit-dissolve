@@ -357,6 +357,7 @@ Shader "Universal Render Pipeline/LitDissolve"
             // -------------------------------------
             // Material Keywords
             #pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature_local _PARALLAXMAP
             #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
             // -------------------------------------
