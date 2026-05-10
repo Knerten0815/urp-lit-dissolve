@@ -21,6 +21,11 @@ Shader "Universal Render Pipeline/LitDissolve"
 
         [ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
         [ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
+<<<<<<< Assets/Shaders/Dissolve/LitDissolve.shader
+=======
+        [ToggleOff] _ScreenSpaceReflections("Screen Space Reflections", Float) = 1.0
+        [ToggleOff] _ScreenSpaceReflectionsContributeTransparent("Screen Space Reflections Contribute Transparent", Float) = 1.0
+>>>>>>> /tmp/upstream_file
 
         _BumpScale("Scale", Float) = 1.0
         _BumpMap("Normal Map", 2D) = "bump" {}
@@ -404,6 +409,12 @@ Shader "Universal Render Pipeline/LitDissolve"
             #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
             #pragma shader_feature_local _ALPHATEST_ON
             #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+<<<<<<< Assets/Shaders/Dissolve/LitDissolve.shader
+=======
+            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
+            #pragma shader_feature_local_fragment _SCREENSPACEREFLECTIONS_OFF
+            #pragma shader_feature_local_fragment _SCREENSPACEREFLECTIONSCONTRIBUTETRANSPARENT_OFF
+>>>>>>> /tmp/upstream_file
 
             // -------------------------------------
             // Unity defined keywords
